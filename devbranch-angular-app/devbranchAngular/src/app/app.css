@@ -1,0 +1,73 @@
+.container {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #222;
+  color: #ddd;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen {
+  background-color: #333;
+  padding: 2rem;
+  border: 1px solid #555;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+}
+
+h1, h2 {
+  color: #ffcc00;
+  text-align: center;
+}
+
+button {
+  background-color: #444;
+  color: #fff;
+  border: 1px solid #777;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 1rem;
+  display: block;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+.clues {
+  margin-top: 1.5rem;
+}
+
+.clue {
+  background-color: #2a2a2a;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  border: 1px solid #444;
+}
+
+.clue:hover {
+  background-color: #3a3a3a;
+  border-color: #ffcc00;
+}
+
+.clue-detail {
+  margin-top: 1.5rem;
+  background-color: #111;
+  padding: 1rem;
+  border-left: 4px solid #ffcc00;
+}
+
+.debug-state {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 0.5rem;
+}
