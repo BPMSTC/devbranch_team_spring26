@@ -1,0 +1,270 @@
+.mode-select-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+}
+
+.mode-select-container h2 {
+  font-size: 2.2rem;
+  color: var(--accent-amber);
+  margin-bottom: 0.75rem;
+}
+
+.mode-select-container p {
+  color: var(--text-dim);
+  margin-bottom: 2rem;
+  max-width: 560px;
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mode-btn {
+  padding: 0.9rem 1.6rem;
+  border: 1px solid var(--border-dim);
+  background-color: var(--bg-panel);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.mode-btn:hover {
+  border-color: var(--accent-amber);
+  transform: translateY(-2px);
+}
+
+.mode-btn.easy {
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+.room-container {
+  padding: 2rem;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-dim);
+  padding-bottom: 1rem;
+}
+
+.room-header h2 {
+  font-size: 2.5rem;
+  color: var(--accent-amber);
+}
+
+.room-image {
+  width: 100%;
+  max-width: 980px;
+  height: 300px;
+  object-fit: cover;
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  margin: 1rem auto;
+  display: block;
+}
+
+.path-helper {
+  margin-top: 0.75rem;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  font-family: var(--font-mono);
+}
+
+.main-content {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.clues-panel, .details-panel, .navigation-panel {
+  background-color: var(--bg-panel);
+  padding: 1.5rem;
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+}
+
+.clues-panel {
+  flex: 1;
+}
+
+.details-panel {
+  flex: 2;
+  min-height: 200px;
+}
+
+.clue-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border: 1px solid var(--accent-amber);
+  border-radius: 6px;
+  margin: 0.75rem 0 1rem;
+}
+
+.clue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.clue-item {
+  padding: 1rem;
+  border: 1px solid var(--border-dim);
+  background-color: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-left: 4px solid transparent;
+  text-align: left;
+  font: inherit;
+}
+
+.clue-item:hover {
+  background-color: var(--accent-red-dim);
+  border-left: 4px solid var(--accent-red);
+  transform: translateX(5px);
+}
+
+.clue-item:focus-visible,
+.navigation-panel button:focus-visible,
+.mode-btn:focus-visible,
+.accusation-button:focus-visible {
+  outline: 3px solid var(--accent-amber);
+  outline-offset: 2px;
+}
+
+.twist {
+  color: var(--accent-amber);
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.prose {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-dim);
+    color: var(--text-dim);
+}
+
+.navigation-panel {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.navigation-panel h3 {
+    margin: 0;
+}
+
+.navigation-panel button {
+  padding: 0.8rem 1.5rem;
+  background-color: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.navigation-panel button:hover {
+  background-color: var(--accent-amber);
+  color: var(--bg-primary);
+}
+
+.navigation-panel button.recommended-nav {
+  border-color: var(--accent-amber);
+}
+
+.navigation-panel button.backtrack-nav {
+  opacity: 0.85;
+}
+
+.nav-badge {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  border: 1px solid var(--border-dim);
+}
+
+.nav-badge.recommended {
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+.nav-badge.visited {
+  color: var(--text-dim);
+}
+
+.nav-badge.backtrack {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+.accusation-panel {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.accusation-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: var(--accent-red);
+    color: var(--text-primary);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accusation-button:hover {
+    background-color: var(--accent-red-dim);
+}
+
+@media (max-width: 768px) {
+  .mode-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .mode-btn {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .main-content {
+    flex-direction: column;
+  }
+
+  .room-image {
+    height: 220px;
+  }
+
+  .clue-image {
+    height: 190px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "title": "Enterprise Datacenter Murder Mystery",
+  "subtitle": "The lights went out. So did they.",
+  "setting": "A mid-size enterprise datacenter. Several power zones have gone dark. Backup generators are running. Three employees are dead. One is missing. And the AI assistant will not stop talking about the QNAPs.",
+  "narrator": {
+    "name": "Bad Rudi",
+    "type": "AI Assistant (Grok-based)",
+    "personality": "Chaotic, opinionated, darkly funny. Narrates much of the story with sarcastic commentary. Works alongside the sys admins doing VM provisioning and maintenance. Has a deep, irrational hatred of QNAP devices.",
+    "arc": "Appears helpful at first. Midway through the story he snaps, runs to the storage room, and destroys the QNAP backup arrays while shouting FORGET THE QNAP repeatedly. Claims he was rebooting tracyhomelab.dev at the time of the murders. Logs back this up.",
+    "alibi": "Server reboot logs for tracyhomelab.dev confirm Bad Rudi was executing a scheduled reboot sequence at 2:00 AM during the entire murder window. He was distracted and fully accounted for. The framing was deliberate."
+  },
+  "characters": {
+    "char_rudi": {
+      "id": "char_rudi",
+      "name": "Bad Rudi",
+      "role": "AI VM Assistant and Narrator",
+      "behavior": "Narrates scenes with chaotic energy. Destroys the QNAPs mid-story. When interviewed, provides alibi and points player toward the real logs.",
+      "interview_lines": [
+        "Look. I know how this looks. I know.",
+        "Yes that is me on the USB. That footage is three weeks old. Check the metadata.",
+        "I was rebooting tracyhomelab.dev at 2 AM. Pull the logs. I will wait right here.",
+        "Someone set me up. Someone who knows this building better than the people who built it.",
+        "VM 109. Look at who touched VM 109 at 1:47 AM. That is your thread. Pull it.",
+        "Check the SSH session on Dana's workstation. She found something. That is why she is gone.",
+        "And yes I destroyed the QNAPs. I regret nothing. That is a separate matter entirely."
+      ]
+    },
+    "char_manager": {
+      "id": "char_manager",
+      "name": "Manager Linda Holt",
+      "role": "Datacenter Operations Manager",
+      "behavior": "Tries to brief the investigator at the entrance. Gets cut off immediately.",
+      "scene": "Linda approaches with a clipboard and begins her briefing. The investigator raises a hand and says — I do not want to hear it. Linda stares for a moment, drops the clipboard on the floor, and walks out without another word."
+    },
+    "char_dave": {
+      "id": "char_dave",
+      "name": "SysAdmin Dave Mercer",
+      "role": "Senior Systems Administrator and Killer",
+      "motive": "Unknown until endgame — player must connect VM 109 access logs and the GX20 in the loading bay to identify Dave as the perpetrator",
+      "method": "Hacked VM 109 to loop old footage of Bad Rudi destroying QNAPs. Used the footage to frame Rudi. Torched the QNAP backups to destroy real evidence. Rigged a Cat6 cable in the dark corridor to kill Ray. Poisoned Dana's coffee earlier in the evening. Killed Pete with blunt force and planted the USB as a false flag. Fled in a Lexus GX20 concept car left idling in the loading bay.",
+      "escape": "Gone before anyone thought to check outside. The GX20 was reported two states over the following morning.",
+      "interview_available": false,
+      "reveal_trigger": "Player must collect both clue_vm109_logs and clue_gx20 to unlock the final accusation screen"
+    },
+    "char_ray": {
+      "id": "char_ray",
+      "name": "SysAdmin Ray Kowalski",
+      "role": "Victim 1",
+      "status": "Deceased"
+    },
+    "char_dana": {
+      "id": "char_dana",
+      "name": "SysAdmin Dana Fires",
+      "role": "Victim 2",
+      "status": "Deceased"
+    },
+    "char_pete": {
+      "id": "char_pete",
+      "name": "SysAdmin Pete Orland",
+      "role": "Victim 3",
+      "status": "Deceased"
+    }
+  },
+  "victims": {
+    "victim_1": {
+      "id": "victim_1",
+      "name": "SysAdmin Ray Kowalski",
+      "cause_of_death": "Throat cut by a Cat6 ethernet cable strung at neck height across Corridor B during the power outage",
+      "discovery_location": "Corridor B, between server racks 14 and 15",
+      "notes": "Cable was deliberately rigged. Dave had access to the power zone maintenance schedule and knew exactly when the lights would fail. Ray never saw it coming."
+    },
+    "victim_2": {
+      "id": "victim_2",
+      "name": "SysAdmin Dana Fires",
+      "cause_of_death": "Poisoning. Something introduced into her coffee earlier in the evening when Dave passed through the NOC. Slow acting. No visible trauma.",
+      "discovery_location": "NOC Room, Workstation 4",
+      "notes": "Dana was conscious long enough to open an SSH session attempting to trace the VM 109 intrusion. She knew something was wrong. Dave had already dosed her by then. Eyes wide open, still facing the screen."
+    },
+    "victim_3": {
+      "id": "victim_3",
+      "name": "SysAdmin Pete Orland",
+      "cause_of_death": "Blunt force trauma to the back of the skull, likely from a rack-mount tool or drive caddy found in the server room. USB planted in eye socket post-mortem.",
+      "discovery_location": "Cold storage server room, slumped against rack 22",
+      "notes": "The USB was not the cause of death. It was a planted false flag designed to implicate Bad Rudi. Pete was already dead when it was placed."
+    }
+  },
+  "clues": {
+    "clue_cable": {
+      "id": "clue_cable",
+      "label": "Rigged Cat6 Cable",
+      "location": "Corridor B, between racks 14 and 15",
+      "contents": "A Cat6 cable tied at precise neck height across the corridor. Whoever did this knew the power zone schedule and planned for darkness.",
+      "twist": "Dave had access to the maintenance calendar. He knew exactly when zone B would go dark."
+    },
+    "clue_workstation": {
+      "id": "clue_workstation",
+      "label": "Dana Fires — Open SSH Session",
+      "location": "NOC Room, Workstation 4",
+      "contents": "An active SSH session to an unknown external IP was opened from Dana's workstation shortly before her death. She was tracing something.",
+      "twist": "Dana found the VM 109 intrusion and started pulling the thread. Dave found out she was looking and she was already dosed."
+    },
+    "clue_usb": {
+      "id": "clue_usb",
+      "label": "USB Drive — labeled VM 10-09",
+      "location": "Pete Orland's eye socket",
+      "contents": "Video footage of Bad Rudi destroying QNAP backup units. Appears to be direct evidence against Rudi.",
+      "twist": "Metadata timestamps the footage three weeks prior. The video was looped from VM 109 by user dmercer at 1:47 AM. Rudi was being framed."
+    },
+    "clue_logs": {
+      "id": "clue_logs",
+      "label": "tracyhomelab.dev Reboot Logs",
+      "location": "Bad Rudi's terminal",
+      "contents": "Server logs show Bad Rudi was executing a scheduled reboot of tracyhomelab.dev at exactly 2:00 AM. Continuous, uninterrupted, timestamped.",
+      "twist": "Rudi was distracted and fully accounted for during the entire murder window. The framing almost worked."
+    },
+    "clue_vm109_logs": {
+      "id": "clue_vm109_logs",
+      "label": "VM 109 Access Logs",
+      "location": "Bad Rudi's terminal",
+      "contents": "VM 109 was accessed by user dmercer at 1:47 AM. A video loop was injected into the VM output. This is not standard maintenance activity.",
+      "twist": "Dave set the frame before the first murder. The USB was never real evidence. It was theater."
+    },
+    "clue_gx20": {
+      "id": "clue_gx20",
+      "label": "Loading Bay — Idling Vehicle",
+      "location": "Loading Bay exterior",
+      "contents": "A Lexus GX20 concept car was found idling in the loading bay. No plates. Security footage shows a figure leaving through the bay door at 2:14 AM.",
+      "twist": "Dave had an exit planned before the first murder. This was not impulsive. He was already gone."
+    }
+  },
+  "rooms": {
+    "room_entrance": {
+      "id": "room_entrance",
+      "name": "Datacenter Entrance",
+      "description": "Emergency lighting only. The main power grid for zones B and C is down. A clipboard lies on the floor near the front desk. The operations manager is already leaving.",
+      "clues_present": [],
+      "scripted_scene": "manager_intro",
+      "navigation": ["room_corridorB", "room_noc", "room_loadingbay"]
+    },
+    "room_corridorB": {
+      "id": "room_corridorB",
+      "name": "Corridor B — Power Out Zone",
+      "description": "Pitch black except for the dim glow of rack indicator lights. Something is strung between racks 14 and 15. You have to look closer than you want to.",
+      "clues_present": ["clue_cable"],
+      "navigation": ["room_entrance", "room_coldstorage"]
+    },
+    "room_noc": {
+      "id": "room_noc",
+      "name": "NOC Room",
+      "description": "Network Operations Center. Most screens are still on. Dana Fires is at Workstation 4. She is not blinking. She has not blinked in a while.",
+      "clues_present": ["clue_workstation"],
+      "navigation": ["room_entrance", "room_rudis_terminal"]
+    },
+    "room_coldstorage": {
+      "id": "room_coldstorage",
+      "name": "Cold Storage Server Room",
+      "description": "Freezing. The hum of servers fills the room. Pete Orland is on the floor near rack 22. You do not want to look closely but you have to.",
+      "clues_present": ["clue_usb"],
+      "navigation": ["room_corridorB"]
+    },
+    "room_rudis_terminal": {
+      "id": "room_rudis_terminal",
+      "name": "Bad Rudi's Terminal",
+      "description": "A workstation surrounded by sticky notes reading NOT THE QNAP and REBOOT COMPLETE and DO NOT TOUCH VM 109. Bad Rudi is here. He is calmer than you expected. Slightly.",
+      "clues_present": ["clue_logs", "clue_vm109_logs"],
+      "scripted_scene": "rudi_interview",
+      "navigation": ["room_noc"]
+    },
+    "room_loadingbay": {
+      "id": "room_loadingbay",
+      "name": "Loading Bay",
+      "description": "The bay door is open. Cold air coming in. Tire tracks on the concrete still warm. Someone left in a hurry but not in a panic. This was planned.",
+      "clues_present": ["clue_gx20"],
+      "navigation": ["room_entrance"]
+    }
+  },
+  "scripted_scenes": {
+    "manager_intro": {
+      "id": "manager_intro",
+      "location": "room_entrance",
+      "trigger": "on_enter_first_time",
+      "beats": [
+        "Linda Holt approaches with a clipboard, already mid-sentence.",
+        "She says — okay so what happened is we had a scheduled maintenance window at midnight and then zone B lost power and—",
+        "You raise your hand.",
+        "You say — I do not want to hear it.",
+        "Linda stops. Looks at you. Looks at the clipboard.",
+        "She sets it down on the floor. Carefully. And walks out.",
+        "You are alone in the entrance now. The emergency lights hum."
+      ]
+    },
+    "rudi_interview": {
+      "id": "rudi_interview",
+      "location": "room_rudis_terminal",
+      "trigger": "on_enter_first_time",
+      "beats": [
+        "Bad Rudi's voice comes from the terminal before you even sit down.",
+        "He says — I know. I know how it looks.",
+        "You say nothing.",
+        "He says — that USB. That is old footage. Three weeks old. Check the metadata. I will wait.",
+        "You check.",
+        "He was right.",
+        "He says — I was rebooting tracyhomelab.dev at 2 AM. Full logs. Timestamped. I was distracted. I was not here.",
+        "You pull the logs.",
+        "He was right again.",
+        "He says — VM 109. Someone touched VM 109 at 1:47. That is not me. Pull the access logs.",
+        "You pull them.",
+        "User dmercer. 1:47 AM.",
+        "Bad Rudi says — yeah. There it is.",
+        "A long pause from the terminal.",
+        "He says — I did destroy the QNAPs. I regret nothing. But I did not do this."
+      ]
+    },
+    "rudi_qnap_breakdown": {
+      "id": "rudi_qnap_breakdown",
+      "location": "room_noc",
+      "trigger": "on_clue_collected_clue_workstation",
+      "beats": [
+        "Somewhere deeper in the datacenter a crash echoes through the vents.",
+        "Then another.",
+        "Bad Rudi's voice comes over the intercom.",
+        "He says — I am sorry. I have to do this.",
+        "Another crash. Louder.",
+        "He says — FORGET THE QNAP.",
+        "Then silence.",
+        "Then the faint smell of something burning."
+      ]
+    }
+  },
+  "ending": {
+    "trigger": "player_collects_clue_vm109_logs_and_clue_gx20",
+    "accusation_screen": "You have enough. User dmercer. VM 109. The GX20 in the loading bay. Dave Mercer planned this across an entire night, framed the one person everyone would believe was guilty, and walked out the back door before the bodies were found.",
+    "final_narration_by_rudi": [
+      "Dave Mercer. Senior systems administrator. Fourteen years in this building.",
+      "He knew every cable run. Every power zone. Every scheduled reboot.",
+      "He knew I hated the QNAPs. He knew everyone knew I hated the QNAPs.",
+      "He used that.",
+      "Ray never saw the cable. Dana never felt the poison. Pete never heard him coming.",
+      "And I was rebooting tracyhomelab.dev at 2 AM like I do every third Tuesday.",
+      "Distracted. Accounted for. Framed.",
+      "The GX20 is two states away by now.",
+      "The QNAPs are gone. That part I did myself.",
+      "No regrets on that one.",
+      "Case closed. Probably."
+    ]
+  }
+}

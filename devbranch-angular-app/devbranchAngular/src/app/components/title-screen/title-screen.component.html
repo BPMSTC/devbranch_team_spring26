@@ -1,0 +1,49 @@
+<div class="title-container" *ngIf="storyPlot$ | async as plot">
+  <div class="intro-prompt">
+    <p class="welcome-text">You have been assigned to investigate a series of incidents.</p>
+    <p class="welcome-text">The truth lies hidden in the shadows of the datacenter.</p>
+  </div>
+
+  <h1>{{ plot.title }}</h1>
+  <h2>{{ plot.subtitle }}</h2>
+  <img
+    class="grand-image"
+    src="story/enterpriseDatacenter/images/thumbnails/badRudiThumbnail.png"
+    alt="Bad Rudi portrait used as the main story image"
+  />
+  <p class="setting-text">{{ plot.setting }}</p>
+
+  <!-- Story Information Section -->
+  <div class="story-info-section">
+    <h3>About the Story</h3>
+    <p class="story-description">
+      This is an interactive murder mystery game set in an enterprise datacenter. 
+      You play as an investigator tasked with solving three murders and unmasking the perpetrator.
+      Collect clues, navigate the facility, interview suspects, and piece together the evidence to reach the truth.
+    </p>
+    <p class="story-accessibility">
+      Mode selection happens after you enter the game.
+      <strong>Easy Mode:</strong> starts with pre-collected clues for a faster run.
+      <strong>Normal Mode:</strong> collect all clues yourself for the full investigative experience.
+    </p>
+  </div>
+
+  <!-- Spoiler Section -->
+  <div class="spoiler-section">
+    <div class="spoiler-warning-bar">
+      <span class="warning-icon">⚠️</span>
+      <span class="warning-text">Complete Story & Resolution Available Below (Spoiler Alert!)</span>
+      <button class="spoiler-toggle-btn" (click)="toggleSpoiler()">
+        {{ showSpoiler ? 'Hide Spoiler' : 'Show Spoiler' }}
+      </button>
+    </div>
+
+    <div class="spoiler-content" *ngIf="showSpoiler">
+      <div class="story-print" [innerText]="storyPrint"></div>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button class="menu-btn" (click)="goToGame()" aria-label="Go to game and choose investigation mode">Go To Game</button>
+  </div>
+</div>

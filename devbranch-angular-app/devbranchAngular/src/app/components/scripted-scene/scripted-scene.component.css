@@ -1,0 +1,106 @@
+.scene-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.scene-content {
+  text-align: center;
+  padding: 2rem;
+  width: min(980px, 92vw);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  background-color: var(--bg-panel);
+}
+
+.scene-image {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .scene-content {
+    width: min(980px, 96vw);
+    padding: 1rem;
+  }
+
+  .scene-image {
+    height: 200px;
+  }
+}
+
+.character-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-amber);
+  margin-bottom: 1rem;
+}
+
+.dialogue {
+  font-size: 1.8rem;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.scene-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.scene-btn {
+  border: 1px solid var(--accent-amber);
+  background-color: var(--accent-amber);
+  color: var(--bg-primary);
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.scene-btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-dim);
+}
+
+.scene-btn:focus-visible {
+  outline: 3px solid var(--accent-amber);
+  outline-offset: 2px;
+}
+
+.scene-help {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-top: 0.8rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

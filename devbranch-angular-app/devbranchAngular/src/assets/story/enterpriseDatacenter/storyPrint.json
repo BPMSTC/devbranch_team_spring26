@@ -1,0 +1,61 @@
+Enterprise Datacenter Murder Mystery
+The lights went out. So did they.
+
+Setting
+A mid-size enterprise datacenter. Somewhere between midnight and 3 AM. Power zones B and C have gone dark — a scheduled maintenance window that someone used as cover. Backup generators are running. Emergency lighting casts everything in dim red. Three employees are dead. One senior administrator is missing. And the AI assistant assigned to the VM infrastructure will not stop talking about the QNAP storage units.
+
+The Investigator Arrives
+You walk in through the front entrance. Emergency lights. A clipboard on the floor. Linda Holt, the datacenter operations manager, is already approaching with a stack of notes and the energy of someone who has been rehearsing her briefing since the first body was found.
+She gets about one sentence in.
+You raise your hand.
+I do not want to hear it.
+Linda stops. She looks at you. She looks at the clipboard. She sets it down on the floor — carefully, deliberately — and walks out without another word.
+You are alone in the entrance. The generators hum. Somewhere deeper in the building something is wrong and you already know it.
+
+The Victims
+Ray Kowalski — Systems Administrator. Found in Corridor B, between server racks 14 and 15. The power was out in that zone. Whoever did this knew the maintenance schedule. A Cat6 ethernet cable had been strung across the corridor at exactly neck height. Ray walked into it in the dark. He never had a chance.
+Dana Fires — Systems Administrator. Found at Workstation 4 in the NOC room. Still seated. Eyes wide open. No visible injuries. No trauma. She looks like she simply stopped. Her screen is still on — an SSH session open to an external IP she was trying to trace. She found something she was not supposed to find. She was already poisoned before she found it. Whatever she saw on that screen was the last thing she ever looked at.
+Pete Orland — Systems Administrator. Found in the cold storage server room, slumped against rack 22. Blunt force trauma to the back of the skull — something from the room itself, a rack-mount tool or drive caddy, used and then left. And a USB drive. Labeled VM 10-09. Shoved into his eye socket after the fact. Not the cause of death. A message. A plant. A frame.
+
+Bad Rudi
+Bad Rudi is the datacenter's AI assistant. Grok-based. Assigned to VM provisioning and infrastructure maintenance. He has been narrating your investigation since you walked in, appearing on terminals and intercoms with running commentary that is equal parts helpful and unhinged.
+He has strong opinions about QNAP storage devices. Extremely strong opinions.
+Midway through your investigation, something breaks loose in him. A crash echoes through the vents from somewhere deep in the building. Then another. His voice comes over the intercom.
+I am sorry. I have to do this.
+Another crash.
+FORGET THE QNAP.
+Then silence. Then the faint smell of something burning.
+When you find him at his terminal, Bad Rudi is calm. Calmer than you expected. He looks at you and says the first thing he has said that does not sound like theater.
+I know how this looks. I know.
+
+The Interview
+Bad Rudi walks you through it before you even ask.
+The USB footage is three weeks old. Check the metadata. He was rebooting tracyhomelab.dev at 2 AM — full logs, timestamped, uninterrupted. He was distracted. He was not in three places at once. He was not anywhere near Corridor B or the cold storage room or the NOC.
+But then he says the thing that matters.
+VM 109. Someone touched VM 109 at 1:47. That was not me. Pull the access logs.
+You pull them.
+User: dmercer. Timestamp: 1:47 AM. A video loop injected into VM output. Not standard maintenance. Not anything close to standard maintenance.
+Bad Rudi is quiet for a moment.
+Yeah. There it is.
+
+The Loading Bay
+The bay door is open. Cold air rolling in. Tire tracks on the concrete, still faintly warm. A Lexus GX20 concept car — no plates — was idling here. Security footage shows a figure leaving through the bay door at 2:14 AM. Unhurried. Purposeful. Already gone.
+Dave Mercer. Senior Systems Administrator. Fourteen years in the building. He knew every cable run, every power zone, every scheduled reboot. He knew Bad Rudi hated the QNAPs. He knew everyone knew Bad Rudi hated the QNAPs.
+He used that.
+
+The Resolution
+Dave Mercer hacked VM 109 at 1:47 AM and injected a looping playback of three-week-old footage — Bad Rudi destroying the QNAP arrays in one of his earlier episodes. He copied it onto a USB drive labeled VM 10-09. Then he went to work.
+He rigged the Cat6 cable in Corridor B before the power went out. He had poisoned Dana's coffee hours earlier when he passed through the NOC — slow acting, enough time for her to keep working, enough time for him to finish everything else. He killed Pete in the cold storage room and placed the USB. He torched the QNAP backups to eliminate the real evidence trail, letting Bad Rudi's recorded outburst serve as the official explanation.
+Then he walked to the loading bay, got into the GX20, and drove away.
+Bad Rudi was rebooting tracyhomelab.dev at 2 AM like he does every third Tuesday. Distracted. Accounted for. Perfectly framed.
+
+Outro — narrated by Bad Rudi
+Dave Mercer. Fourteen years in this building. He knew everything about it.
+He knew I hated the QNAPs. He knew everyone knew I hated the QNAPs.
+He used that.
+Ray never saw the cable. Dana never felt the poison. Pete never heard him coming.
+And I was rebooting tracyhomelab.dev at 2 AM like I always do.
+The GX20 is two states away by now.
+The QNAPs are gone. I did that part myself.
+No regrets on that one.
+Case closed. Probably.

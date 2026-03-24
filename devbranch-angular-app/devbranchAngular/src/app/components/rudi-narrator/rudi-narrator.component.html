@@ -1,0 +1,10 @@
+<div class="rudi-narrator-container" *ngIf="lines.length > 0">
+  <div class="rudi-header">
+    <span>&gt; BAD_RUDI</span>
+  </div>
+  <div class="rudi-output">
+    <div *ngFor="let line of lines" class="line">
+      <span>&gt; {{ line }}</span>
+    </div>
+  </div>
+</div>
