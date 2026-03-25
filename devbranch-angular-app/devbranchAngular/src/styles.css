@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111318;
+  --bg-panel: #1a1d24;
+  --accent-red: #8b0000;
+  --accent-red-dim: #3d0000;
+  --accent-amber: #b8860b;
+  --text-primary: #c9cdd4;
+  --text-dim: #6b7280;
+  --text-rudi: #4ade80;
+  --font-body: 'Segoe UI', sans-serif;
+  --font-mono: 'Courier New', monospace;
+  --border-dim: #2a2d35;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-body);
+}
+

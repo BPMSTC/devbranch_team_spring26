@@ -1,0 +1,151 @@
+<div class="mode-select-container" *ngIf="(gameMode$ | async) === null">
+  <h2>Choose Your Investigation Mode</h2>
+  <p>Select how you want to play before entering the datacenter.</p>
+
+  <div class="mode-buttons">
+    <button class="mode-btn" (click)="chooseMode('normal')">Normal Mode</button>
+    <button class="mode-btn easy" (click)="chooseMode('easy')">Easy Mode</button>
+  </div>
+</div>
+
+<div class="room-container" *ngIf="(gameMode$ | async) !== null && (currentRoom$ | async) as room">
+  <div class="room-header">
+    <h2>{{ room.name }}</h2>
+    <img
+      *ngIf="roomImageVisible"
+      class="room-image"
+      [src]="getRoomImagePath(room.id)"
+      [alt]="room.name"
+      (error)="onRoomImageError()"
+      (click)="openGalleryAtScene(room.id)"
+    />
+    <p>{{ room.description }}</p>
+    <p class="path-helper" *ngIf="roomPathLabel">Path: {{ roomPathLabel }}</p>
+  </div>
+
+  <div class="main-content">
+    <div class="clues-panel">
+      <h3>Clues</h3>
+      <div class="clue-list">
+        <button
+          *ngFor="let clueEntry of clueEntries$ | async"
+          class="clue-item"
+          [class.found]="clueEntry.isFound"
+          type="button"
+          [attr.aria-label]="'Inspect clue: ' + clueEntry.clue.label + (clueEntry.isFound ? ', already found' : '')"
+          (click)="onClueClicked(clueEntry.clue)"
+        >
+          <span>{{ clueEntry.clue.label }}</span>
+          <span class="clue-status" *ngIf="clueEntry.isFound">Found</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="details-panel" *ngIf="selectedClue">
+      <h3>{{ selectedClue.label }}</h3>
+      <img
+        *ngIf="clueImageVisible && getSelectedClueImagePath()"
+        class="clue-image"
+        [src]="getSelectedClueImagePath()!"
+        [alt]="selectedClue.label"
+        (error)="onClueImageError()"
+        (click)="openGalleryForSelectedClue()"
+      />
+      <p class="image-hint" *ngIf="clueImageVisible && getSelectedClueImagePath()">
+        Tap or click image to expand. Swipe to browse this scene and related clues.
+      </p>
+      <p><strong>Location:</strong> {{ selectedClue.location }}</p>
+      <p><strong>Contents:</strong> {{ selectedClue.contents }}</p>
+      <p *ngIf="selectedClue.twist" class="twist"><strong>Twist:</strong> {{ selectedClue.twist }}</p>
+      <div *ngIf="selectedClueProse" class="prose" [innerHTML]="selectedClueProse"></div>
+    </div>
+  </div>
+
+  <div class="navigation-panel">
+    <h3>Go To</h3>
+    <button
+      *ngFor="let nav of navigationOptions$ | async"
+      (click)="navigateTo(nav.roomId)"
+      [class.recommended-nav]="nav.isRecommended"
+      [class.backtrack-nav]="nav.isBacktrack"
+    >
+      {{ nav.roomName }}
+      <span class="nav-badge recommended" *ngIf="nav.isRecommended">New</span>
+      <span class="nav-badge visited" *ngIf="nav.isVisited && !nav.isBacktrack">Visited</span>
+      <span class="nav-badge backtrack" *ngIf="nav.isBacktrack">Backtrack</span>
+    </button>
+  </div>
+
+  <div class="accusation-panel" *ngIf="showAccusationButton$ | async">
+    <button class="accusation-button" (click)="makeAccusation()">MAKE CONCLUSION</button>
+  </div>
+
+  <section class="story-plot-panel" [class.open]="showStoryPanel">
+    <button class="story-toggle" type="button" (click)="toggleStoryPanel()" [attr.aria-expanded]="showStoryPanel">
+      {{ showStoryPanel ? 'Hide Story Plot' : 'Read Story Plot While Playing' }}
+    </button>
+
+    <div class="story-content" *ngIf="showStoryPanel">
+      <h3>Nonfiction Story Plot</h3>
+      <p class="story-help">
+        Current scene sections are highlighted. Clues you have discovered are marked in gold.
+      </p>
+
+      <article
+        class="story-section"
+        *ngFor="let section of storySections"
+        [class.active-section]="isStorySectionActive(section)"
+      >
+        <h4>{{ section.title }}</h4>
+        <p>{{ section.body }}</p>
+        <div class="story-clue-tags" *ngIf="section.clueIds.length > 0">
+          <span
+            class="story-clue-tag"
+            *ngFor="let clueId of section.clueIds"
+            [class.collected]="isClueMentionCollected(clueId)"
+          >
+            {{ getClueLabel(clueId) }}
+          </span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="image-gallery-overlay" *ngIf="galleryOpen" (click)="closeGallery()">
+    <div
+      class="image-gallery-content"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Expanded image viewer"
+      (click)="$event.stopPropagation()"
+      (touchstart)="onGalleryTouchStart($event)"
+      (touchmove)="onGalleryTouchMove($event)"
+      (touchend)="onGalleryTouchEnd()"
+    >
+      <button class="gallery-close" type="button" (click)="closeGallery()" aria-label="Close image viewer">Close</button>
+
+      <div class="gallery-meta">
+        <span class="gallery-kind">{{ getCurrentGalleryKindLabel() }}</span>
+        <span class="gallery-title">{{ getCurrentGalleryLabel() }}</span>
+        <span class="gallery-counter">{{ getGalleryCounterLabel() }}</span>
+      </div>
+
+      <img
+        *ngIf="getCurrentGalleryImagePath()"
+        class="gallery-image"
+        [src]="getCurrentGalleryImagePath()!"
+        [alt]="getCurrentGalleryLabel()"
+        (error)="onGalleryImageError()"
+      />
+      <p *ngIf="!getCurrentGalleryImagePath()" class="gallery-missing">
+        No image available for this item.
+      </p>
+
+      <div class="gallery-actions">
+        <button class="gallery-nav" type="button" (click)="showPreviousGalleryImage()">Previous</button>
+        <button class="gallery-nav" type="button" (click)="showNextGalleryImage()">Next</button>
+      </div>
+      <p class="gallery-help">Swipe left or right on mobile to browse images.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.rudi-narrator-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-dim);
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  color: var(--text-rudi);
+  z-index: 950;
+}
+
+.rudi-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-panel);
+  font-weight: bold;
+}
+
+.rudi-thumbnail {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--border-dim);
+}
+
+.rudi-output {
+  padding: 1rem;
+}
+
+.line {
+  margin-bottom: 0.5rem;
+  white-space: pre-wrap; /* Ensures long lines wrap */
+}

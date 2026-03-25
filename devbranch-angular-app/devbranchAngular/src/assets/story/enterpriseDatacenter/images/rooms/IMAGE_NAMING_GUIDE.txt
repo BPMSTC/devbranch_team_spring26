@@ -1,0 +1,50 @@
+IMAGE NAMING GUIDE FOR GAME AUTO-LOADING
+
+Base folder:
+story/enterpriseDatacenter/images/rooms/
+
+Each room folder must contain:
+1) room image:
+   room.webp
+2) clue images folder:
+   clues/
+3) scene images folder:
+   scenes/
+
+Rules:
+- Room image filename is always exactly: room.webp
+- Clue image filename is always exactly: <clue_id>.webp
+- Scene image filename is always exactly: <scene_id>.webp
+- Use lowercase ids exactly as in storyPlot1.json
+- Recommended format: webp
+
+Implemented fallback support in game:
+- If .webp is missing, the game tries .png, then .jpg, then .jpeg.
+- This applies to room images, clue images, and scene images.
+
+Current rooms:
+- room_entrance
+- room_corridorB
+- room_noc
+- room_coldstorage
+- room_rudis_terminal
+- room_loadingbay
+
+Current clue ids:
+- clue_cable
+- clue_workstation
+- clue_usb
+- clue_logs
+- clue_vm109_logs
+- clue_gx20
+
+Current scene ids:
+- manager_intro
+- rudi_interview
+- rudi_qnap_breakdown
+
+Examples:
+- story/enterpriseDatacenter/images/rooms/room_noc/room.webp
+- story/enterpriseDatacenter/images/rooms/room_noc/clues/clue_workstation.webp
+- story/enterpriseDatacenter/images/rooms/room_noc/scenes/rudi_qnap_breakdown.webp
+- story/enterpriseDatacenter/images/rooms/room_rudis_terminal/scenes/rudi_interview.webp
