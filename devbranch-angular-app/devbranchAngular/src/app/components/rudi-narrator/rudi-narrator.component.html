@@ -1,0 +1,15 @@
+<div class="rudi-narrator-container" *ngIf="displayLines.length > 0">
+  <div class="rudi-header">
+    <img
+      class="rudi-thumbnail"
+      src="story/enterpriseDatacenter/images/thumbnails/happyRudi.jpg"
+      alt="Happy Rudi"
+    />
+    <span>&gt; BAD_RUDI</span>
+  </div>
+  <div class="rudi-output">
+    <div *ngFor="let line of displayLines" class="line">
+      <span>&gt; {{ line }}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+.ending-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+.accusation-screen {
+  font-size: 1.5rem;
+  max-width: 800px;
+  padding: 2rem;
+  color: var(--text-dim);
+}
+
+.conclusion-title {
+  margin: 0 0 1rem;
+  color: var(--accent-red);
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.case-closed-screen h1 {
+  font-size: 5rem;
+  color: var(--accent-red);
+}
+
+/* We need to override the position for the rudi narrator in this component */
+:host ::ng-deep app-rudi-narrator .rudi-narrator-container {
+    position: relative;
+    max-height: none;
+}

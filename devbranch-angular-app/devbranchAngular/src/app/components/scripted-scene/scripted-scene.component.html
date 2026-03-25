@@ -1,0 +1,38 @@
+<div *ngIf="currentBeat" class="scene-overlay">
+  <div
+    class="scene-content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="scene-dialog-title"
+    aria-describedby="scene-dialog-body"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 id="scene-dialog-title" class="sr-only">Scripted Scene</h2>
+    <img
+      *ngIf="sceneImageVisible && getSceneImagePath()"
+      class="scene-image"
+      [src]="getSceneImagePath()!"
+      [alt]="activeScene?.id || 'Scene image'"
+      (error)="onSceneImageError()"
+    />
+    <div *ngIf="getCurrentBeatCharacterId() && (storyService.getStoryPlot() | async) as plot" class="character-name">
+      {{ plot.characters[getCurrentBeatCharacterId()!]?.name }}
+    </div>
+    <div class="rudi-speaking" *ngIf="isRudiSpeaking()">
+      <img
+        class="rudi-speaking-avatar"
+        src="story/enterpriseDatacenter/images/thumbnails/happyRudi.jpg"
+        alt="Bad Rudi"
+      />
+      <span>Bad Rudi is speaking</span>
+    </div>
+    <div id="scene-dialog-body" class="dialogue">
+      "{{ getCurrentBeatText() }}"
+    </div>
+    <div class="scene-actions">
+      <button class="scene-btn" (click)="nextBeat()">Next</button>
+      <button class="scene-btn scene-btn-secondary" (click)="skipScene()">Skip Scene</button>
+    </div>
+    <p class="scene-help">Press Escape to skip this scene.</p>
+  </div>
+</div>

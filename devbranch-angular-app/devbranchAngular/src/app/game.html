@@ -1,37 +1,6 @@
-<div class="container">
-  <!-- Intro Screen -->
-  <div *ngIf="!gameStarted" class="screen intro">
-    <h1>{{ title }}</h1>
-    <p>{{ intro }}</p>
-    <button (click)="startGame()">Enter the Mystery</button>
-  </div>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<app-clue-log></app-clue-log>
+<app-scripted-scene></app-scripted-scene>
 
-  <!-- Game Screen -->
-  <div *ngIf="gameStarted" class="screen game">
-    <h2>{{ currentRoom.name }}</h2>
-    <p class="description">{{ currentRoom.description }}</p>
-    
-    <div class="clues">
-      <div *ngFor="let clue of currentRoom.clues" class="clue" (click)="examineClue(clue)">
-        <span>🔍 {{ clue.name }}</span>
-      </div>
-    </div>
-
-    <!-- Navigation -->
-    <div class="navigation">
-      <button *ngIf="currentRoomKey === 'study'" (click)="goToRoom('hallway')">Go to Hallway</button>
-      <button *ngIf="currentRoomKey === 'hallway'" (click)="goToRoom('study')">Return to Study</button>
-    </div>
-
-    <!-- Clue Detail Overlay/Section -->
-    <div *ngIf="clueDetail" class="clue-detail">
-      <p>{{ clueDetail }}</p>
-      <button (click)="closeClue()">Close</button>
-    </div>
-
-    <!-- Debug State -->
-    <div class="debug-state">
-      Key Clue Found: {{ hasFoundKeyClue }}
-    </div>
-  </div>
-</div>
