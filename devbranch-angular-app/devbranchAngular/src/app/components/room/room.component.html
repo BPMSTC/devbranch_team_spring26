@@ -17,6 +17,7 @@
       [src]="getRoomImagePath(room.id)"
       [alt]="room.name"
       (error)="onRoomImageError()"
+      (click)="openGalleryAtScene(room.id)"
     />
     <p>{{ room.description }}</p>
     <p class="path-helper" *ngIf="roomPathLabel">Path: {{ roomPathLabel }}</p>
@@ -27,13 +28,15 @@
       <h3>Clues</h3>
       <div class="clue-list">
         <button
-          *ngFor="let clue of cluesInRoom$ | async"
+          *ngFor="let clueEntry of clueEntries$ | async"
           class="clue-item"
+          [class.found]="clueEntry.isFound"
           type="button"
-          [attr.aria-label]="'Inspect clue: ' + clue.label"
-          (click)="onClueClicked(clue)"
+          [attr.aria-label]="'Inspect clue: ' + clueEntry.clue.label + (clueEntry.isFound ? ', already found' : '')"
+          (click)="onClueClicked(clueEntry.clue)"
         >
-          {{ clue.label }}
+          <span>{{ clueEntry.clue.label }}</span>
+          <span class="clue-status" *ngIf="clueEntry.isFound">Found</span>
         </button>
       </div>
     </div>
@@ -46,7 +49,11 @@
         [src]="getSelectedClueImagePath()!"
         [alt]="selectedClue.label"
         (error)="onClueImageError()"
+        (click)="openGalleryForSelectedClue()"
       />
+      <p class="image-hint" *ngIf="clueImageVisible && getSelectedClueImagePath()">
+        Tap or click image to expand. Swipe to browse this scene and related clues.
+      </p>
       <p><strong>Location:</strong> {{ selectedClue.location }}</p>
       <p><strong>Contents:</strong> {{ selectedClue.contents }}</p>
       <p *ngIf="selectedClue.twist" class="twist"><strong>Twist:</strong> {{ selectedClue.twist }}</p>
@@ -71,5 +78,43 @@
 
   <div class="accusation-panel" *ngIf="showAccusationButton$ | async">
     <button class="accusation-button" (click)="makeAccusation()">Make Your Accusation</button>
+  </div>
+
+  <div class="image-gallery-overlay" *ngIf="galleryOpen" (click)="closeGallery()">
+    <div
+      class="image-gallery-content"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Expanded image viewer"
+      (click)="$event.stopPropagation()"
+      (touchstart)="onGalleryTouchStart($event)"
+      (touchmove)="onGalleryTouchMove($event)"
+      (touchend)="onGalleryTouchEnd()"
+    >
+      <button class="gallery-close" type="button" (click)="closeGallery()" aria-label="Close image viewer">Close</button>
+
+      <div class="gallery-meta">
+        <span class="gallery-kind">{{ getCurrentGalleryKindLabel() }}</span>
+        <span class="gallery-title">{{ getCurrentGalleryLabel() }}</span>
+        <span class="gallery-counter">{{ getGalleryCounterLabel() }}</span>
+      </div>
+
+      <img
+        *ngIf="getCurrentGalleryImagePath()"
+        class="gallery-image"
+        [src]="getCurrentGalleryImagePath()!"
+        [alt]="getCurrentGalleryLabel()"
+        (error)="onGalleryImageError()"
+      />
+      <p *ngIf="!getCurrentGalleryImagePath()" class="gallery-missing">
+        No image available for this item.
+      </p>
+
+      <div class="gallery-actions">
+        <button class="gallery-nav" type="button" (click)="showPreviousGalleryImage()">Previous</button>
+        <button class="gallery-nav" type="button" (click)="showNextGalleryImage()">Next</button>
+      </div>
+      <p class="gallery-help">Swipe left or right on mobile to browse images.</p>
+    </div>
   </div>
 </div>

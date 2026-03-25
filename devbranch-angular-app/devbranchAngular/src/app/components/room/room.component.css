@@ -79,6 +79,7 @@
   border-radius: 6px;
   margin: 1rem auto;
   display: block;
+  cursor: zoom-in;
 }
 
 .path-helper {
@@ -117,6 +118,14 @@
   border: 1px solid var(--accent-amber);
   border-radius: 6px;
   margin: 0.75rem 0 1rem;
+  cursor: zoom-in;
+}
+
+.image-hint {
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
 }
 
 .clue-list {
@@ -129,17 +138,38 @@
   padding: 1rem;
   border: 1px solid var(--border-dim);
   background-color: var(--bg-secondary);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   border-left: 4px solid transparent;
   text-align: left;
   font: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .clue-item:hover {
   background-color: var(--accent-red-dim);
   border-left: 4px solid var(--accent-red);
   transform: translateX(5px);
+}
+
+.clue-item.found {
+  border-left: 4px solid var(--accent-amber);
+}
+
+.clue-status {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
 }
 
 .clue-item:focus-visible,
@@ -238,6 +268,110 @@
     background-color: var(--accent-red-dim);
 }
 
+.image-gallery-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.image-gallery-content {
+  width: min(1000px, 96vw);
+  max-height: 94vh;
+  overflow: auto;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  padding: 0.9rem;
+}
+
+.gallery-close {
+  margin-left: auto;
+  display: block;
+  border: 1px solid var(--border-dim);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.gallery-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0.6rem 0 0.8rem;
+}
+
+.gallery-kind {
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  padding: 0.12rem 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.gallery-title {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.gallery-counter {
+  margin-left: auto;
+  color: var(--text-dim);
+}
+
+.gallery-image {
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  background: var(--bg-primary);
+}
+
+.gallery-missing {
+  color: var(--text-dim);
+  border: 1px dashed var(--border-dim);
+  border-radius: 6px;
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.gallery-actions {
+  margin-top: 0.8rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.gallery-nav {
+  border: 1px solid var(--border-dim);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}
+
+.gallery-help {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-top: 0.6rem;
+}
+
+.gallery-close:focus-visible,
+.gallery-nav:focus-visible {
+  outline: 3px solid var(--accent-amber);
+  outline-offset: 2px;
+}
+
 @media (max-width: 768px) {
   .mode-buttons {
     flex-direction: column;
@@ -259,6 +393,21 @@
 
   .clue-image {
     height: 190px;
+  }
+
+  .image-gallery-content {
+    width: 100%;
+    max-height: 96vh;
+    padding: 0.75rem;
+  }
+
+  .gallery-image {
+    max-height: 62vh;
+  }
+
+  .gallery-counter {
+    width: 100%;
+    margin-left: 0;
   }
 }
 

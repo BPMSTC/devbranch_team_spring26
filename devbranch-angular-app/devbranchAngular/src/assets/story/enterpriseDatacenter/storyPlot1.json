@@ -120,6 +120,13 @@
       "contents": "VM 109 was accessed by user dmercer at 1:47 AM. A video loop was injected into the VM output. This is not standard maintenance activity.",
       "twist": "Dave set the frame before the first murder. The USB was never real evidence. It was theater."
     },
+    "clue_clipboard": {
+      "id": "clue_clipboard",
+      "label": "Linda Holt's Clipboard",
+      "location": "Datacenter entrance front desk",
+      "contents": "A clipboard with incident timing notes, maintenance windows, and handwritten initials beside zone outage times.",
+      "twist": "The notes confirm someone with schedule access planned around the blackout window long before the first body was found."
+    },
     "clue_gx20": {
       "id": "clue_gx20",
       "label": "Loading Bay — Idling Vehicle",
@@ -133,7 +140,7 @@
       "id": "room_entrance",
       "name": "Datacenter Entrance",
       "description": "Emergency lighting only. The main power grid for zones B and C is down. A clipboard lies on the floor near the front desk. The operations manager is already leaving.",
-      "clues_present": [],
+      "clues_present": ["clue_clipboard"],
       "scripted_scene": "manager_intro",
       "navigation": ["room_corridorB", "room_noc", "room_loadingbay"]
     },

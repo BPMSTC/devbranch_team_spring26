@@ -87,6 +87,23 @@ export class ScriptedSceneComponent implements OnInit {
     return this.currentBeat.line || '';
   }
 
+  isRudiSpeaking(): boolean {
+    const beatText = this.getCurrentBeatText().toLowerCase();
+    if (!beatText) {
+      return false;
+    }
+
+    if (beatText.includes("bad rudi says") || beatText.includes("bad rudi's voice")) {
+      return true;
+    }
+
+    if ((this.activeScene?.id || '').startsWith('rudi_')) {
+      return beatText.includes('he says');
+    }
+
+    return false;
+  }
+
   getCurrentBeatCharacterId(): string | null {
     if (!this.currentBeat || typeof this.currentBeat === 'string') {
       return null;

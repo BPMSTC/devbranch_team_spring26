@@ -15,11 +15,13 @@ export class StoryService {
   private currentRoomId = new BehaviorSubject<string>('room_entrance');
   private collectedClues = new BehaviorSubject<Record<string, boolean>>({});
   private currentScriptedSceneId = new BehaviorSubject<string | null>(null);
+  private focusedClueId = new BehaviorSubject<string | null>(null);
 
   gameMode$ = this.gameMode.asObservable();
   currentRoom$: Observable<Room | undefined>;
   collectedClues$ = this.collectedClues.asObservable();
   currentScriptedScene$ = this.currentScriptedSceneId.asObservable();
+  focusedClue$ = this.focusedClueId.asObservable();
 
   constructor(private http: HttpClient) {
     this.storyPlot$ = this.http.get<StoryPlot>('story/enterpriseDatacenter/storyPlot1.json').pipe(
@@ -81,6 +83,10 @@ export class StoryService {
   triggerScriptedScene(sceneId: string | null): void {
     console.log('[StoryService] Triggering scene:', sceneId);
     this.currentScriptedSceneId.next(sceneId);
+  }
+
+  setFocusedClue(clueId: string | null): void {
+    this.focusedClueId.next(clueId);
   }
 
   checkEndingTrigger(): Observable<boolean> {

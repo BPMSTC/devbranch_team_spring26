@@ -4,10 +4,16 @@
     <div *ngIf="(collectedCluesDetails$ | async)?.length === 0" class="no-clues">
       No clues collected yet.
     </div>
-    <div *ngFor="let clue of collectedCluesDetails$ | async" class="clue-entry">
+    <button
+      *ngFor="let clue of collectedCluesDetails$ | async"
+      class="clue-entry"
+      type="button"
+      [attr.aria-label]="'Open scene for ' + clue.label"
+      (click)="openClueScene(clue)"
+    >
       <h4>{{ clue.label }}</h4>
       <p>{{ clue.contents }}</p>
       <p *ngIf="clue.twist" class="twist">{{ clue.twist }}</p>
-    </div>
+    </button>
   </div>
 </div>

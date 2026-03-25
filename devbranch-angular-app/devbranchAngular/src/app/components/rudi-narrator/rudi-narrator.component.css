@@ -13,9 +13,20 @@
 }
 
 .rudi-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: var(--bg-panel);
   font-weight: bold;
+}
+
+.rudi-thumbnail {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--border-dim);
 }
 
 .rudi-output {

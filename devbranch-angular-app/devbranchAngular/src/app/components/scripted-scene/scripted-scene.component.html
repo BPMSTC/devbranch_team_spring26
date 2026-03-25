@@ -18,6 +18,14 @@
     <div *ngIf="getCurrentBeatCharacterId() && (storyService.getStoryPlot() | async) as plot" class="character-name">
       {{ plot.characters[getCurrentBeatCharacterId()!]?.name }}
     </div>
+    <div class="rudi-speaking" *ngIf="isRudiSpeaking()">
+      <img
+        class="rudi-speaking-avatar"
+        src="story/enterpriseDatacenter/images/thumbnails/happyRudi.jpg"
+        alt="Bad Rudi"
+      />
+      <span>Bad Rudi is speaking</span>
+    </div>
     <div id="scene-dialog-body" class="dialogue">
       "{{ getCurrentBeatText() }}"
     </div>

@@ -48,6 +48,25 @@
   margin-bottom: 1rem;
 }
 
+.rudi-speaking {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--accent-amber);
+  border-radius: 999px;
+  color: var(--accent-amber);
+  margin-bottom: 0.9rem;
+}
+
+.rudi-speaking-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-dim);
+}
+
 .dialogue {
   font-size: 1.8rem;
   font-style: italic;

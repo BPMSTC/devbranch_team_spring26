@@ -22,9 +22,25 @@
 }
 
 .clue-entry {
+  width: 100%;
+  text-align: left;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border-dim);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.clue-entry:hover {
+  background-color: var(--accent-red-dim);
+}
+
+.clue-entry:focus-visible {
+  outline: 3px solid var(--accent-amber);
+  outline-offset: 2px;
 }
 
 .clue-entry h4 {
