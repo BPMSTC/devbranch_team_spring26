@@ -6,6 +6,13 @@ import { StoryService } from '../../services/story.service';
 import { Room, Clue, StoryPrint } from '../../models/story.models';
 import { CommonModule } from '@angular/common';
 
+interface StorySection {
+  title: string;
+  body: string;
+  roomIds: string[];
+  clueIds: string[];
+}
+
 @Component({
   selector: 'app-room',
   standalone: true,
@@ -41,6 +48,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private roomHistoryIds: string[] = [];
   private readonly imageExtensions = ['webp', 'png', 'jpg', 'jpeg'];
   private subscriptions = new Subscription();
+  private currentGameMode: 'easy' | 'normal' | null = null;
   private latestCluesInRoom: Clue[] = [];
   private roomImageExtIndex = 0;
   private clueImageExtIndex = 0;
@@ -52,13 +60,71 @@ export class RoomComponent implements OnInit, OnDestroy {
   private galleryTouchDeltaX = 0;
 
   roomPathLabel = '';
+  showStoryPanel = false;
+  activeRoomId: string | null = null;
+  collectedClueIds = new Set<string>();
+  clueLabelById: Record<string, string> = {};
+  readonly storySections: StorySection[] = [
+    {
+      title: 'Setting',
+      body: 'A mid-size enterprise datacenter during a maintenance blackout in zones B and C. Emergency red lighting, backup generators, and a staged chaos designed to hide three murders and one disappearance.',
+      roomIds: ['room_entrance', 'room_corridor_b', 'room_noc', 'room_cold_storage', 'room_loading_bay'],
+      clueIds: []
+    },
+    {
+      title: 'The Investigator Arrives',
+      body: 'You enter through the front entrance. Linda Holt starts briefing you, you cut her off, and she leaves a clipboard behind. The investigation starts with silence, humming generators, and that first clue at your feet.',
+      roomIds: ['room_entrance'],
+      clueIds: ['clue_clipboard']
+    },
+    {
+      title: 'The Victims',
+      body: 'Ray is killed in Corridor B by a cable trap. Dana is poisoned at the NOC workstation. Pete is killed in cold storage and staged with a planted USB in a false-flag setup.',
+      roomIds: ['room_corridor_b', 'room_noc', 'room_cold_storage'],
+      clueIds: ['clue_cat6', 'clue_workstation', 'clue_usb_vm1009']
+    },
+    {
+      title: 'Bad Rudi',
+      body: 'The AI assistant narrates the case and has a public hatred of QNAP storage. Mid-investigation, a violent outburst seems to confirm guilt, but the timeline and metadata begin to challenge that assumption.',
+      roomIds: ['room_rudis_terminal', 'room_noc'],
+      clueIds: ['clue_usb_vm1009', 'clue_vm109_logs']
+    },
+    {
+      title: 'The Interview',
+      body: 'Rudi points you to VM 109 access at 1:47 AM, tied to user dmercer. The evidence shifts from spectacle to forensic certainty: account activity, logs, and metadata undermine the frame job.',
+      roomIds: ['room_rudis_terminal'],
+      clueIds: ['clue_vm109_logs']
+    },
+    {
+      title: 'The Loading Bay',
+      body: 'The GX20 escape route confirms premeditation and timing. The killer was already gone while the scene still pointed at Rudi. Vehicle evidence links movement, intent, and exit strategy.',
+      roomIds: ['room_loading_bay'],
+      clueIds: ['clue_gx20']
+    },
+    {
+      title: 'The Resolution',
+      body: 'Dave Mercer hacked VM 109, looped old Rudi footage, planted the USB, staged the murders across rooms, and escaped via the loading bay. The frame was deliberate; the conclusion is direct.',
+      roomIds: ['room_loading_bay', 'room_rudis_terminal', 'room_corridor_b', 'room_noc', 'room_cold_storage'],
+      clueIds: ['clue_vm109_logs', 'clue_gx20', 'clue_usb_vm1009', 'clue_cat6', 'clue_workstation']
+    }
+  ];
 
   constructor(private storyService: StoryService, private router: Router) {
     console.log('[RoomComponent] Constructor called');
     this.gameMode$ = this.storyService.gameMode$;
+    const gameModeSubscription = this.gameMode$.subscribe(mode => {
+      this.currentGameMode = mode;
+    });
+    this.subscriptions.add(gameModeSubscription);
+
     this.currentRoom$ = this.storyService.currentRoom$.pipe(
       tap(room => {
+        if (this.currentGameMode === null) {
+          return;
+        }
+
         console.log('[RoomComponent] Current room:', room?.id);
+        this.activeRoomId = room?.id || null;
 
         // Always clear selected clue details when transitioning to a different room.
         if (room?.id && room.id !== this.lastRoomId) {
@@ -187,6 +253,21 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(roomCluesSubscription);
     this.subscriptions.add(focusedClueSubscription);
+
+    const collectedCluesSubscription = this.storyService.collectedClues$.subscribe(clues => {
+      this.collectedClueIds = new Set(Object.keys(clues).filter(clueId => !!clues[clueId]));
+    });
+
+    const clueLabelsSubscription = this.storyService.getStoryPlot().subscribe(plot => {
+      const labels: Record<string, string> = {};
+      Object.entries(plot?.clues || {}).forEach(([id, clue]) => {
+        labels[id] = clue.label;
+      });
+      this.clueLabelById = labels;
+    });
+
+    this.subscriptions.add(collectedCluesSubscription);
+    this.subscriptions.add(clueLabelsSubscription);
   }
 
   ngOnDestroy(): void {
@@ -195,6 +276,16 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   chooseMode(mode: 'easy' | 'normal'): void {
     console.log('[RoomComponent] Mode selected:', mode);
+    this.visitedRooms.clear();
+    this.oneTimeClueScenes.clear();
+    this.lastRoomId = null;
+    this.roomHistoryIds = [];
+    this.roomPathLabel = '';
+    this.selectedClue = null;
+    this.selectedClueProse = null;
+    this.galleryOpen = false;
+    this.galleryItems = [];
+    this.galleryIndex = 0;
     this.storyService.startGame(mode);
   }
 
@@ -227,6 +318,26 @@ export class RoomComponent implements OnInit, OnDestroy {
   makeAccusation(): void {
     console.log('[RoomComponent] Making accusation');
     this.router.navigate(['/ending']);
+  }
+
+  toggleStoryPanel(): void {
+    this.showStoryPanel = !this.showStoryPanel;
+  }
+
+  isStorySectionActive(section: StorySection): boolean {
+    if (!this.activeRoomId) {
+      return false;
+    }
+
+    return section.roomIds.includes(this.activeRoomId);
+  }
+
+  isClueMentionCollected(clueId: string): boolean {
+    return this.collectedClueIds.has(clueId);
+  }
+
+  getClueLabel(clueId: string): string {
+    return this.clueLabelById[clueId] || clueId;
   }
 
   private getPreviousRoomId(): string | null {

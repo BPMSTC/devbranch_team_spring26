@@ -77,8 +77,39 @@
   </div>
 
   <div class="accusation-panel" *ngIf="showAccusationButton$ | async">
-    <button class="accusation-button" (click)="makeAccusation()">Make Your Accusation</button>
+    <button class="accusation-button" (click)="makeAccusation()">MAKE CONCLUSION</button>
   </div>
+
+  <section class="story-plot-panel" [class.open]="showStoryPanel">
+    <button class="story-toggle" type="button" (click)="toggleStoryPanel()" [attr.aria-expanded]="showStoryPanel">
+      {{ showStoryPanel ? 'Hide Story Plot' : 'Read Story Plot While Playing' }}
+    </button>
+
+    <div class="story-content" *ngIf="showStoryPanel">
+      <h3>Nonfiction Story Plot</h3>
+      <p class="story-help">
+        Current scene sections are highlighted. Clues you have discovered are marked in gold.
+      </p>
+
+      <article
+        class="story-section"
+        *ngFor="let section of storySections"
+        [class.active-section]="isStorySectionActive(section)"
+      >
+        <h4>{{ section.title }}</h4>
+        <p>{{ section.body }}</p>
+        <div class="story-clue-tags" *ngIf="section.clueIds.length > 0">
+          <span
+            class="story-clue-tag"
+            *ngFor="let clueId of section.clueIds"
+            [class.collected]="isClueMentionCollected(clueId)"
+          >
+            {{ getClueLabel(clueId) }}
+          </span>
+        </div>
+      </article>
+    </div>
+  </section>
 
   <div class="image-gallery-overlay" *ngIf="galleryOpen" (click)="closeGallery()">
     <div

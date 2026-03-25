@@ -59,6 +59,8 @@ export class StoryService {
 
   startGame(mode: 'easy' | 'normal'): void {
     this.gameMode.next(mode);
+    this.currentScriptedSceneId.next(null);
+    this.collectedClues.next({});
     this.currentRoomId.next('room_entrance');
 
     if (mode === 'easy') {
@@ -90,8 +92,15 @@ export class StoryService {
   }
 
   checkEndingTrigger(): Observable<boolean> {
-    return this.collectedClues$.pipe(
-      map(clues => clues['clue_vm109_logs'] && clues['clue_gx20'])
+    return combineLatest([this.storyPlot$, this.collectedClues$]).pipe(
+      map(([plot, clues]) => {
+        const allClueIds = Object.keys(plot?.clues || {});
+        if (allClueIds.length === 0) {
+          return false;
+        }
+
+        return allClueIds.every(clueId => !!clues[clueId]);
+      })
     );
   }
 

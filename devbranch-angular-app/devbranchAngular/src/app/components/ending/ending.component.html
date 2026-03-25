@@ -1,6 +1,7 @@
 <div class="ending-container">
   <div *ngIf="!showCaseClosed">
     <div *ngIf="ending$ | async as ending" class="accusation-screen">
+      <h2 class="conclusion-title">Conclusion: Dave Mercer Did It.</h2>
       <p>{{ ending.accusation_screen }}</p>
     </div>
     <app-rudi-narrator [lines]="narrationLines"></app-rudi-narrator>
