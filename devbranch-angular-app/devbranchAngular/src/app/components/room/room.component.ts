@@ -62,6 +62,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   roomPathLabel = '';
   showStoryPanel = false;
   activeRoomId: string | null = null;
+  currentRoomScriptedSceneId: string | null = null;
   collectedClueIds = new Set<string>();
   clueLabelById: Record<string, string> = {};
   readonly storySections: StorySection[] = [
@@ -125,6 +126,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
         console.log('[RoomComponent] Current room:', room?.id);
         this.activeRoomId = room?.id || null;
+        this.currentRoomScriptedSceneId = room?.scripted_scene || null;
 
         // Always clear selected clue details when transitioning to a different room.
         if (room?.id && room.id !== this.lastRoomId) {
@@ -427,6 +429,24 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
 
     this.galleryIndex = (this.galleryIndex + 1) % this.galleryItems.length;
+  }
+
+  canReplayCurrentSceneDialog(): boolean {
+    if (this.galleryItems.length === 0) {
+      return false;
+    }
+
+    const currentItem = this.galleryItems[this.galleryIndex];
+    return currentItem.kind === 'scene' && !!this.currentRoomScriptedSceneId;
+  }
+
+  replayCurrentSceneDialog(): void {
+    if (!this.canReplayCurrentSceneDialog() || !this.currentRoomScriptedSceneId) {
+      return;
+    }
+
+    this.closeGallery();
+    this.storyService.triggerScriptedScene(this.currentRoomScriptedSceneId);
   }
 
   getCurrentGalleryImagePath(): string | null {

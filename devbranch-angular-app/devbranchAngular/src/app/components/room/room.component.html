@@ -144,6 +144,14 @@
       <div class="gallery-actions">
         <button class="gallery-nav" type="button" (click)="showPreviousGalleryImage()">Previous</button>
         <button class="gallery-nav" type="button" (click)="showNextGalleryImage()">Next</button>
+        <button
+          class="gallery-nav"
+          type="button"
+          *ngIf="canReplayCurrentSceneDialog()"
+          (click)="replayCurrentSceneDialog()"
+        >
+          Replay Scene Dialog
+        </button>
       </div>
       <p class="gallery-help">Swipe left or right on mobile to browse images.</p>
     </div>

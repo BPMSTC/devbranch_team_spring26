@@ -13,12 +13,17 @@
 }
 
 .scene-content {
+  position: relative;
   text-align: center;
   padding: 2rem;
+  padding-bottom: 6.2rem;
   width: min(980px, 92vw);
   color: var(--text-primary);
   border: 1px solid var(--border-dim);
   background-color: var(--bg-panel);
+  min-height: min(86vh, 760px);
+  display: flex;
+  flex-direction: column;
 }
 
 .scene-image {
@@ -34,6 +39,8 @@
   .scene-content {
     width: min(980px, 96vw);
     padding: 1rem;
+    padding-bottom: 7.2rem;
+    min-height: min(92vh, 760px);
   }
 
   .scene-image {
@@ -70,13 +77,24 @@
 .dialogue {
   font-size: 1.8rem;
   font-style: italic;
-  margin-bottom: 2rem;
+  line-height: 1.35;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.5rem 1rem;
 }
 
 .scene-actions {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 2.4rem;
+  width: calc(100% - 2.5rem);
   display: flex;
   gap: 0.75rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .scene-btn {
@@ -100,9 +118,14 @@
 }
 
 .scene-help {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0.8rem;
+  width: calc(100% - 2.5rem);
   color: var(--text-dim);
-  font-size: 0.9rem;
-  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  margin: 0;
 }
 
 .sr-only {

@@ -23,6 +23,8 @@ export class ScriptedSceneComponent implements OnInit {
   
   currentBeatIndex = 0;
   currentBeat: any = null; // Can be more specific
+  private dialogTouchStartX: number | null = null;
+  private dialogTouchDeltaX = 0;
 
   constructor(public storyService: StoryService) {
     this.storyPrint$ = this.storyService.getStoryPrint();
@@ -91,6 +93,56 @@ export class ScriptedSceneComponent implements OnInit {
     if (this.currentBeat) {
       this.skipScene();
     }
+  }
+
+  @HostListener('document:keydown.arrowright')
+  @HostListener('document:keydown.enter')
+  @HostListener('document:keydown.space')
+  onNextKey(): void {
+    if (this.currentBeat) {
+      this.nextBeat();
+    }
+  }
+
+  @HostListener('document:keydown.arrowleft')
+  onPreviousKey(): void {
+    if (this.currentBeat) {
+      this.previousBeat();
+    }
+  }
+
+  @HostListener('document:keydown.r')
+  onReplayKey(): void {
+    if (this.currentBeat) {
+      this.replayDialog();
+    }
+  }
+
+  onDialogTouchStart(event: TouchEvent): void {
+    this.dialogTouchStartX = event.changedTouches[0]?.clientX ?? null;
+    this.dialogTouchDeltaX = 0;
+  }
+
+  onDialogTouchMove(event: TouchEvent): void {
+    if (this.dialogTouchStartX === null) {
+      return;
+    }
+
+    const currentX = event.changedTouches[0]?.clientX ?? this.dialogTouchStartX;
+    this.dialogTouchDeltaX = currentX - this.dialogTouchStartX;
+  }
+
+  onDialogTouchEnd(): void {
+    const minSwipeDistance = 40;
+
+    if (this.dialogTouchDeltaX <= -minSwipeDistance) {
+      this.nextBeat();
+    } else if (this.dialogTouchDeltaX >= minSwipeDistance) {
+      this.previousBeat();
+    }
+
+    this.dialogTouchStartX = null;
+    this.dialogTouchDeltaX = 0;
   }
 
   getCurrentBeatText(): string {
