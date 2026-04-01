@@ -27,9 +27,13 @@
 
 h1 {
   font-size: 3rem;
-  color: var(--accent-red);
+  color: #cc0000;
   margin-bottom: 0.5rem;
   animation: fadeIn 1.2s ease-in;
+  -webkit-text-stroke: 2px #ffffff;
+  text-stroke: 2px #ffffff;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 0 0 2px #000000);
 }
 
 h2 {

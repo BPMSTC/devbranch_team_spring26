@@ -514,6 +514,30 @@
     max-height: 42vh;
     padding: 0.7rem;
   }
+
+  .navigation-panel {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .navigation-panel h3 {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .navigation-panel button {
+    width: 100%;
+    padding: 1.1rem 1rem;
+    font-size: 1rem;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .nav-badge {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
