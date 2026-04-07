@@ -205,6 +205,18 @@ h2 {
   outline-offset: 2px;
 }
 
+.menu-btn.profile-btn {
+  background-color: transparent;
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+.menu-btn.profile-btn:hover {
+  background-color: rgba(184, 134, 11, 0.15);
+  border-color: var(--accent-amber);
+  color: var(--text-primary);
+}
+
 .menu-btn.easy-mode {
   background-color: transparent;
   border-color: var(--accent-amber);

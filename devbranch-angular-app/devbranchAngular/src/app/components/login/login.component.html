@@ -1,0 +1,154 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- Header -->
+    <div class="card-header">
+      <div class="badge">CLASSIFIED ACCESS</div>
+      <h1>Investigator Credentials</h1>
+      <p class="subtitle">Enterprise Datacenter Division</p>
+    </div>
+
+    <!-- Mode Tabs -->
+    <div class="tab-bar" role="tablist">
+      <button
+        class="tab-btn"
+        [class.active]="mode === 'login'"
+        (click)="setMode('login')"
+        role="tab"
+        [attr.aria-selected]="mode === 'login'"
+      >Sign In</button>
+      <button
+        class="tab-btn"
+        [class.active]="mode === 'register'"
+        (click)="setMode('register')"
+        role="tab"
+        [attr.aria-selected]="mode === 'register'"
+      >Create Profile</button>
+    </div>
+
+    <!-- Error Banner -->
+    @if (errorMessage) {
+      <div class="alert alert-error" role="alert">{{ errorMessage }}</div>
+    }
+
+    <!-- ── LOGIN FORM ── -->
+    @if (mode === 'login') {
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="auth-form" novalidate>
+
+        <div class="field-group">
+          <label for="login-username">Username</label>
+          <input
+            id="login-username"
+            type="text"
+            formControlName="username"
+            placeholder="investigator_handle"
+            autocomplete="username"
+          />
+          @if (lf['username'].invalid && lf['username'].touched) {
+            <span class="field-error">Username must be at least 3 characters.</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="login-password">Password</label>
+          <input
+            id="login-password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+          />
+          @if (lf['password'].invalid && lf['password'].touched) {
+            <span class="field-error">Password must be at least 6 characters.</span>
+          }
+        </div>
+
+        <button type="submit" class="submit-btn">Access Files</button>
+      </form>
+    }
+
+    <!-- ── REGISTER FORM ── -->
+    @if (mode === 'register') {
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="auth-form" novalidate>
+
+        <div class="field-group">
+          <label for="reg-username">Username</label>
+          <input
+            id="reg-username"
+            type="text"
+            formControlName="username"
+            placeholder="investigator_handle"
+            autocomplete="username"
+          />
+          @if (rf['username'].invalid && rf['username'].touched) {
+            <span class="field-error">
+              @if (rf['username'].errors?.['required']) { Username is required. }
+              @else if (rf['username'].errors?.['minlength']) { Minimum 3 characters. }
+              @else if (rf['username'].errors?.['maxlength']) { Maximum 24 characters. }
+              @else if (rf['username'].errors?.['pattern']) { Letters, numbers, and underscores only. }
+            </span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="reg-display">Display Name</label>
+          <input
+            id="reg-display"
+            type="text"
+            formControlName="displayName"
+            placeholder="Detective Jane Doe"
+            autocomplete="name"
+          />
+          @if (rf['displayName'].invalid && rf['displayName'].touched) {
+            <span class="field-error">Display name must be 2–40 characters.</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="reg-email">Email</label>
+          <input
+            id="reg-email"
+            type="email"
+            formControlName="email"
+            placeholder="detective@division.gov"
+            autocomplete="email"
+          />
+          @if (rf['email'].invalid && rf['email'].touched) {
+            <span class="field-error">A valid email address is required.</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="reg-password">Password</label>
+          <input
+            id="reg-password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            autocomplete="new-password"
+          />
+          @if (rf['password'].invalid && rf['password'].touched) {
+            <span class="field-error">Password must be at least 6 characters.</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="reg-confirm">Confirm Password</label>
+          <input
+            id="reg-confirm"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="••••••••"
+            autocomplete="new-password"
+          />
+          @if (rf['confirmPassword'].touched && registerForm.errors?.['passwordMismatch']) {
+            <span class="field-error">Passwords do not match.</span>
+          }
+        </div>
+
+        <button type="submit" class="submit-btn">Create Profile</button>
+      </form>
+    }
+
+  </div>
+</div>

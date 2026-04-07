@@ -53,4 +53,8 @@ export class TitleScreenComponent implements OnInit {
     console.log('[TitleScreenComponent] Navigating to /investigate');
     this.router.navigate(['/investigate']);
   }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']);
+  }
 }

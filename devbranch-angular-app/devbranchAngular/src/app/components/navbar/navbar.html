@@ -5,5 +5,22 @@
   <ul class="navbar-nav">
     <li><a routerLink="/" aria-label="Go to home page">Home</a></li>
     <li><a routerLink="/investigate" aria-label="Go to investigate page">Investigate</a></li>
+
+    @if (profile$ | async; as profile) {
+      <li class="profile-info">
+        <a routerLink="/profile" class="profile-link" aria-label="View your investigator profile">
+          <div class="nav-avatar" [style.background-color]="profile.avatarColor">{{ profile.avatarIcon }}</div>
+          <div class="profile-text">
+            <span class="profile-rank">{{ profile.investigatorRank }}</span>
+            <span class="profile-name">{{ profile.displayName }}</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <button class="logout-btn" (click)="logout()" aria-label="Log out">Log Out</button>
+      </li>
+    } @else {
+      <li><a routerLink="/login" aria-label="Sign in or create investigator profile">Login</a></li>
+    }
   </ul>
 </nav>

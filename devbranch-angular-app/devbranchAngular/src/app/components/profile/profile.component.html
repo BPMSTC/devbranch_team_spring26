@@ -1,0 +1,205 @@
+@if (profile) {
+<div class="profile-page">
+
+  <!-- ── Dossier Card ──────────────────────────────────────────────────── -->
+  <div class="dossier-card">
+    <div class="dossier-stamp">INVESTIGATOR DOSSIER</div>
+
+    <div class="dossier-body">
+      <div class="avatar-display" [style.background-color]="profile.avatarColor">
+        {{ profile.avatarIcon }}
+      </div>
+
+      <div class="dossier-info">
+        <div class="dossier-name">{{ profile.displayName }}</div>
+        <div class="dossier-meta">
+          <span class="tag rank-tag">{{ profile.investigatorRank }}</span>
+          <span class="tag">&#64;{{ profile.username }}</span>
+          <span class="tag">{{ profile.casesCompleted.length }} case{{ profile.casesCompleted.length !== 1 ? 's' : '' }}</span>
+          <span class="tag dim">Since {{ memberSince }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tabs ─────────────────────────────────────────────────────────── -->
+  <div class="tab-bar" role="tablist">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'edit'"
+      (click)="setTab('edit')"
+      role="tab"
+      [attr.aria-selected]="activeTab === 'edit'"
+    >Edit Profile</button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'friends'"
+      (click)="setTab('friends')"
+      role="tab"
+      [attr.aria-selected]="activeTab === 'friends'"
+    >Colleagues
+      @if (profile.friends.length > 0) {
+        <span class="friend-count">{{ profile.friends.length }}</span>
+      }
+    </button>
+  </div>
+
+  <!-- ── Edit Profile Tab ──────────────────────────────────────────────── -->
+  @if (activeTab === 'edit') {
+    <div class="tab-panel">
+
+      @if (editSuccess) {
+        <div class="alert alert-success" role="status">{{ editSuccess }}</div>
+      }
+      @if (editError) {
+        <div class="alert alert-error" role="alert">{{ editError }}</div>
+      }
+
+      <form [formGroup]="editForm" (ngSubmit)="saveProfile()" class="edit-form" novalidate>
+
+        <!-- Display Name -->
+        <section class="form-section">
+          <h3 class="section-label">Display Name</h3>
+          <div class="inline-field">
+            <input
+              id="displayName"
+              type="text"
+              formControlName="displayName"
+              placeholder="Detective Jane Doe"
+              autocomplete="name"
+            />
+            @if (df['displayName'].invalid && df['displayName'].touched) {
+              <span class="field-error">Must be 2–40 characters.</span>
+            }
+          </div>
+        </section>
+
+        <!-- Profile Picture -->
+        <section class="form-section">
+          <h3 class="section-label">Profile Picture</h3>
+          <div class="avatar-grid">
+            @for (icon of avatarIcons; track icon) {
+              <button
+                type="button"
+                class="avatar-option"
+                [class.selected]="selectedIcon === icon"
+                [style.background-color]="selectedColor"
+                (click)="selectIcon(icon)"
+                [attr.aria-label]="'Select avatar ' + icon"
+                [attr.aria-pressed]="selectedIcon === icon"
+              >{{ icon }}</button>
+            }
+          </div>
+        </section>
+
+        <!-- Avatar Color -->
+        <section class="form-section">
+          <h3 class="section-label">Badge Color</h3>
+          <div class="color-grid">
+            @for (color of avatarColors; track color) {
+              <button
+                type="button"
+                class="color-swatch"
+                [class.selected]="selectedColor === color"
+                [style.background-color]="color"
+                (click)="selectColor(color)"
+                [attr.aria-label]="'Select color ' + color"
+                [attr.aria-pressed]="selectedColor === color"
+              ></button>
+            }
+          </div>
+        </section>
+
+        <!-- Preview -->
+        <section class="form-section">
+          <h3 class="section-label">Preview</h3>
+          <div class="preview-row">
+            <div class="avatar-display" [style.background-color]="selectedColor">
+              {{ selectedIcon }}
+            </div>
+            <span class="preview-name">{{ editForm.value.displayName || profile.displayName }}</span>
+          </div>
+        </section>
+
+        <button type="submit" class="save-btn">Save Changes</button>
+      </form>
+
+    </div>
+  }
+
+  <!-- ── Friends / Colleagues Tab ─────────────────────────────────────── -->
+  @if (activeTab === 'friends') {
+    <div class="tab-panel">
+
+      @if (friendSuccess) {
+        <div class="alert alert-success" role="status">{{ friendSuccess }}</div>
+      }
+      @if (friendError) {
+        <div class="alert alert-error" role="alert">{{ friendError }}</div>
+      }
+
+      <!-- Search -->
+      <section class="form-section">
+        <h3 class="section-label">Add Colleague</h3>
+        <div class="search-row">
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            placeholder="Search by username or name…"
+            class="search-input"
+            (keydown.enter)="onSearch()"
+          />
+          <button type="button" class="search-btn" (click)="onSearch()">Search</button>
+        </div>
+
+        @if (hasSearched && searchResults.length === 0) {
+          <p class="empty-msg">No investigators found.</p>
+        }
+
+        @if (searchResults.length > 0) {
+          <ul class="investigator-list">
+            @for (inv of searchResults; track inv.username) {
+              <li class="investigator-row">
+                <div class="inv-avatar" [style.background-color]="inv.avatarColor">{{ inv.avatarIcon }}</div>
+                <div class="inv-info">
+                  <span class="inv-name">{{ inv.displayName }}</span>
+                  <span class="inv-meta">&#64;{{ inv.username }} · {{ inv.investigatorRank }}</span>
+                </div>
+                <button class="action-btn add-btn" (click)="addFriend(inv.username)">Add</button>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <!-- Current friends -->
+      <section class="form-section">
+        <h3 class="section-label">Current Colleagues ({{ friendProfiles.length }})</h3>
+
+        @if (friendProfiles.length === 0) {
+          <p class="empty-msg">No colleagues yet. Search above to add investigators.</p>
+        }
+
+        @if (friendProfiles.length > 0) {
+          <ul class="investigator-list">
+            @for (friend of friendProfiles; track friend.username) {
+              <li class="investigator-row">
+                <div class="inv-avatar" [style.background-color]="friend.avatarColor">{{ friend.avatarIcon }}</div>
+                <div class="inv-info">
+                  <span class="inv-name">{{ friend.displayName }}</span>
+                  <span class="inv-meta">&#64;{{ friend.username }} · {{ friend.investigatorRank }}</span>
+                </div>
+                <button class="action-btn remove-btn" (click)="removeFriend(friend.username)">Remove</button>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+    </div>
+  }
+
+</div>
+} @else {
+  <div class="loading-msg">Loading profile…</div>
+}
