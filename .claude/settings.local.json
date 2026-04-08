@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/thede/AppData/Local/Programs/**)",
+      "Read(//c/Users/thede/AppData/Local/GitHubDesktop/**)"
+    ]
+  }
+}
