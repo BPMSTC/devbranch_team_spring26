@@ -20,9 +20,11 @@ export class ScriptedSceneComponent implements OnInit {
   sceneImageSrc: string | null = null;
   private sceneImageExtIndex = 0;
   private readonly imageExtensions = ['webp', 'png', 'jpg', 'jpeg'];
-  
+
   currentBeatIndex = 0;
-  currentBeat: any = null; // Can be more specific
+  currentBeat: any = null;
+  private dialogTouchStartX: number | null = null;
+  private dialogTouchDeltaX = 0;
 
   constructor(public storyService: StoryService) {
     this.storyPrint$ = this.storyService.getStoryPrint();
@@ -64,6 +66,24 @@ export class ScriptedSceneComponent implements OnInit {
     });
   }
 
+  previousBeat(): void {
+    this.currentScene$.pipe(first()).subscribe(scene => {
+      if (scene && this.currentBeatIndex > 0) {
+        this.currentBeatIndex--;
+        this.updateCurrentBeat(scene);
+      }
+    });
+  }
+
+  replayDialog(): void {
+    this.currentScene$.pipe(first()).subscribe(scene => {
+      if (scene) {
+        this.currentBeatIndex = 0;
+        this.updateCurrentBeat(scene);
+      }
+    });
+  }
+
   skipScene(): void {
     this.endScene();
   }
@@ -73,6 +93,56 @@ export class ScriptedSceneComponent implements OnInit {
     if (this.currentBeat) {
       this.skipScene();
     }
+  }
+
+  @HostListener('document:keydown.arrowright')
+  @HostListener('document:keydown.enter')
+  @HostListener('document:keydown.space')
+  onNextKey(): void {
+    if (this.currentBeat) {
+      this.nextBeat();
+    }
+  }
+
+  @HostListener('document:keydown.arrowleft')
+  onPreviousKey(): void {
+    if (this.currentBeat) {
+      this.previousBeat();
+    }
+  }
+
+  @HostListener('document:keydown.r')
+  onReplayKey(): void {
+    if (this.currentBeat) {
+      this.replayDialog();
+    }
+  }
+
+  onDialogTouchStart(event: TouchEvent): void {
+    this.dialogTouchStartX = event.changedTouches[0]?.clientX ?? null;
+    this.dialogTouchDeltaX = 0;
+  }
+
+  onDialogTouchMove(event: TouchEvent): void {
+    if (this.dialogTouchStartX === null) {
+      return;
+    }
+
+    const currentX = event.changedTouches[0]?.clientX ?? this.dialogTouchStartX;
+    this.dialogTouchDeltaX = currentX - this.dialogTouchStartX;
+  }
+
+  onDialogTouchEnd(): void {
+    const minSwipeDistance = 40;
+
+    if (this.dialogTouchDeltaX <= -minSwipeDistance) {
+      this.nextBeat();
+    } else if (this.dialogTouchDeltaX >= minSwipeDistance) {
+      this.previousBeat();
+    }
+
+    this.dialogTouchStartX = null;
+    this.dialogTouchDeltaX = 0;
   }
 
   getCurrentBeatText(): string {

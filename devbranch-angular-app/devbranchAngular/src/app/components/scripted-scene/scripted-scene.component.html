@@ -6,6 +6,9 @@
     aria-labelledby="scene-dialog-title"
     aria-describedby="scene-dialog-body"
     (click)="$event.stopPropagation()"
+    (touchstart)="onDialogTouchStart($event)"
+    (touchmove)="onDialogTouchMove($event)"
+    (touchend)="onDialogTouchEnd()"
   >
     <h2 id="scene-dialog-title" class="sr-only">Scripted Scene</h2>
     <img
@@ -30,9 +33,13 @@
       "{{ getCurrentBeatText() }}"
     </div>
     <div class="scene-actions">
+      <button class="scene-btn" (click)="previousBeat()" [disabled]="currentBeatIndex === 0">Previous</button>
       <button class="scene-btn" (click)="nextBeat()">Next</button>
+      <button class="scene-btn" (click)="replayDialog()">Replay</button>
       <button class="scene-btn scene-btn-secondary" (click)="skipScene()">Skip Scene</button>
     </div>
-    <p class="scene-help">Press Escape to skip this scene.</p>
+    <p class="scene-help">
+      Keys: ← Previous, →/Enter/Space Next, R Replay, Esc Skip. Swipe left/right on touch screens.
+    </p>
   </div>
 </div>
