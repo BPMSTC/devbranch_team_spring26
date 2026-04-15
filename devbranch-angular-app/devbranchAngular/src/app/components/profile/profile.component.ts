@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const p = this.authService.getProfileSnapshot();
     if (!p) {
       this.router.navigate(['/login']);
@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
     this.editForm.patchValue({ displayName: p.displayName });
     this.selectedIcon = p.avatarIcon;
     this.selectedColor = p.avatarColor;
-    this.refreshFriends();
+    await this.refreshFriends();
   }
 
   setTab(tab: ProfileTab): void {
@@ -85,7 +85,7 @@ export class ProfileComponent implements OnInit {
     this.selectedColor = color;
   }
 
-  saveProfile(): void {
+  async saveProfile(): Promise<void> {
     if (this.editForm.invalid) {
       this.editForm.markAllAsTouched();
       return;
@@ -93,7 +93,7 @@ export class ProfileComponent implements OnInit {
     this.editError = '';
     this.editSuccess = '';
 
-    const result = this.authService.updateProfile({
+    const result = await this.authService.updateProfile({
       displayName: this.editForm.value.displayName.trim(),
       avatarIcon: this.selectedIcon,
       avatarColor: this.selectedColor,
@@ -109,37 +109,44 @@ export class ProfileComponent implements OnInit {
 
   // ── Friends ───────────────────────────────────────────────────────────────
 
-  onSearch(): void {
+  async onSearch(): Promise<void> {
     this.friendError = '';
     this.friendSuccess = '';
     this.hasSearched = true;
-    this.searchResults = this.authService.searchInvestigators(this.searchQuery);
+    this.searchResults = await this.authService.searchInvestigators(this.searchQuery);
   }
 
-  addFriend(username: string): void {
+  async addFriend(username: string): Promise<void> {
     this.friendError = '';
     this.friendSuccess = '';
 
-    const result = this.authService.addFriend(username);
+    const result = await this.authService.addFriend(username);
     if (result.success) {
       this.profile = this.authService.getProfileSnapshot();
       this.friendSuccess = `${username} added as a colleague.`;
       this.searchResults = this.searchResults.filter((r) => r.username !== username);
-      this.refreshFriends();
+      await this.refreshFriends();
     } else {
       this.friendError = result.error ?? 'Could not add friend.';
     }
   }
 
-  removeFriend(username: string): void {
-    this.authService.removeFriend(username);
-    this.profile = this.authService.getProfileSnapshot();
-    this.friendProfiles = this.friendProfiles.filter((f) => f.username !== username);
-    this.friendSuccess = `${username} removed from colleagues.`;
+  async removeFriend(username: string): Promise<void> {
+    this.friendError = '';
+    this.friendSuccess = '';
+
+    const result = await this.authService.removeFriend(username);
+    if (result.success) {
+      this.profile = this.authService.getProfileSnapshot();
+      this.friendProfiles = this.friendProfiles.filter((f) => f.username !== username);
+      this.friendSuccess = `${username} removed from colleagues.`;
+    } else {
+      this.friendError = result.error ?? 'Could not remove friend.';
+    }
   }
 
-  private refreshFriends(): void {
-    this.friendProfiles = this.authService.getFriendProfiles();
+  private async refreshFriends(): Promise<void> {
+    this.friendProfiles = await this.authService.getFriendProfiles();
   }
 
   // ── Template helpers ──────────────────────────────────────────────────────

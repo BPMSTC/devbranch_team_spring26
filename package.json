@@ -1,0 +1,13 @@
+{
+  "name": "devbranch-team-spring26",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start:api": "npm start --prefix devbranch-api",
+    "start:web": "npm start --prefix devbranch-angular-app/devbranchAngular",
+    "start": "concurrently \"npm run start:api\" \"npm run start:web\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
