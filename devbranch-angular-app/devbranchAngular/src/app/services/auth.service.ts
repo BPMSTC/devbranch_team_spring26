@@ -7,9 +7,13 @@ import {
   DEFAULT_AVATAR_ICON,
   DEFAULT_AVATAR_COLOR,
 } from '../models/investigator.models';
+import { environment } from '../../environments/environment';
 
 const SESSION_KEY = 'current_investigator';
-const API_BASE_URL = 'http://localhost:3000/api';
+
+function getApiBaseUrl(): string {
+  return environment.apiBaseUrl.replace(/\/+$/, '');
+}
 
 interface ApiResponse {
   investigator: InvestigatorProfile;
@@ -194,7 +198,7 @@ export class AuthService {
   }
 
   private async request<T>(path: string, init: RequestInit = {}): Promise<T> {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
+    const response = await fetch(`${getApiBaseUrl()}${path}`, {
       ...init,
       headers: {
         'Content-Type': 'application/json',
