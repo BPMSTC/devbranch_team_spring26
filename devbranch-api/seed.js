@@ -17,7 +17,7 @@ function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
   return `${salt}:${derivedKey}`;
 }
 
-const sharedPassword = 'Devbranch123!';
+const sharedPassword = 'Midstate';
 
 const sampleAccounts = [
   {
