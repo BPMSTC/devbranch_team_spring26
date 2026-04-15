@@ -67,14 +67,14 @@ export class LoginComponent {
     this.successMessage = '';
   }
 
-  onLogin(): void {
+  async onLogin(): Promise<void> {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
     this.errorMessage = '';
 
-    const result = this.authService.login(this.loginForm.value);
+    const result = await this.authService.login(this.loginForm.value);
     if (result.success) {
       this.router.navigate(['/']);
     } else {
@@ -82,14 +82,14 @@ export class LoginComponent {
     }
   }
 
-  onRegister(): void {
+  async onRegister(): Promise<void> {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
     }
     this.errorMessage = '';
 
-    const result = this.authService.register(this.registerForm.value);
+    const result = await this.authService.register(this.registerForm.value);
     if (result.success) {
       this.router.navigate(['/']);
     } else {
