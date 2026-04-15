@@ -8,8 +8,25 @@ const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const allowedOrigins = new Set(
+  (process.env.ALLOWED_ORIGINS ?? 'http://localhost:4200,https://bpmstc.github.io')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+);
 
-app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.has(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error('Not allowed by CORS'));
+    },
+  })
+);
 app.use(express.json());
 
 app.get('/health', (_req, res) => {
