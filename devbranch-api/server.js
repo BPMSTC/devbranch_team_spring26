@@ -9,7 +9,7 @@ const authRoutes = require('./routes/auth.routes');
 const app = express();
 const port = process.env.PORT || 3000;
 const allowedOrigins = new Set(
-  (process.env.ALLOWED_ORIGINS ?? 'http://localhost:4200,https://bpmstc.github.io')
+  (process.env.ALLOWED_ORIGINS ?? 'https://bpmstc.github.io')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean)
@@ -18,7 +18,11 @@ const allowedOrigins = new Set(
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) {
+      const isLocalhost =
+        typeof origin === 'string' &&
+        /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+
+      if (!origin || allowedOrigins.has(origin) || isLocalhost) {
         callback(null, true);
         return;
       }
